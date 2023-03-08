@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>logo.ico">
+    <title>cy-blog</title>
+    <script src="digitalrain.js"></script>
+  </head>
+  <body>
+    <!-- built files will be auto injected -->
+    <div id="digitalrain"></div>
+    <div id="app"></div>
+  </body>
+
+  <style>
+      body{
+          overflow-y: auto;
+      }
+      body > canvas {
+          top: 0 !important;
+      }
+      #app{
+          position: relative;
+          z-index: 2 !important;
+          opacity: 0.9;
+
+      }
+  </style>
+</html>
