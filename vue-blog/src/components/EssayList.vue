@@ -5,29 +5,23 @@
       :pagination="pagination"
   >
     <template #renderItem="{ item }" >
-      <a-list-item>
-        <a-card :title="item.title">
-          <img  :src="item.image ? item.image : defaultImage" alt="" :width="130" :height="90">
-          {{ item.content }}
-        </a-card>
-      </a-list-item>
+      <router-link to="/detail" :id="item.id">
+        <a-list-item>
+          <a-card :title="item.title">
+            <img  :src="item.image ? item.image : defaultImage" alt="" :width="130" :height="90">
+            {{ item.content }}
+          </a-card>
+        </a-list-item>
+      </router-link>
     </template>
   </a-list>
 </template>
 
-<script>
-import { defineComponent } from "vue";
-export default defineComponent({
-  name: "EssayList",
-  props:{
-    pagination: Object,
-    data: Array
-  },
-  setup() {
-    const defaultImage = '/image/bear.jpeg'
-    return {
-      defaultImage
-    };
-  },
-});
+<script setup>
+//
+defineProps({
+  pagination: Object,
+  data: Array
+})
+const defaultImage = '/image/bear.jpeg'
 </script>
