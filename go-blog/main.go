@@ -1,6 +1,9 @@
 package main
 
-import "go-blog/router"
+import (
+	_ "go-blog/app/controller"
+	"go-blog/router"
+)
 
 func main() {
 	r := router.InitRouter()

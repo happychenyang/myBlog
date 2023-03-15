@@ -5,6 +5,7 @@ import (
 	"log"
 )
 
+//---- mysql
 type MysqlConfig struct {
 	Hostname    string
 	Port        string
@@ -19,9 +20,16 @@ type MysqlConfig struct {
 	AxLifetime  int
 }
 
+//---redis
+type RedisConfig struct {
+	Host     string
+	Pass     string
+	Port     string
+	DbNumber int
+}
+
 /**
-当查到使用  user  会返回列表
-没有查到表示空值
+  mysql 配置
 */
 func (mysqlConfig *MysqlConfig) GetMysqlConfig() (config MysqlConfig) {
 	viper.SetConfigName("db")
@@ -42,5 +50,25 @@ func (mysqlConfig *MysqlConfig) GetMysqlConfig() (config MysqlConfig) {
 	config.MaxIdleConn = viper.GetInt("mysql.max_idle_conn")
 	config.MaxOpenConn = viper.GetInt("mysql.max_open_conn")
 	config.AxLifetime = viper.GetInt("mysql.ax_lifetime")
+	return config
+}
+
+/**
+  redis 获取配置
+*/
+func (redisConfig *RedisConfig) GetRedisConfig() (config RedisConfig) {
+	viper.SetConfigName("redis")
+	viper.SetConfigType("ini")
+	viper.AddConfigPath("config")
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatalf("read config failed: %v", err)
+	}
+
+	config.Host = viper.GetString("redis.host")
+	config.Pass = viper.GetString("redis.pass")
+	config.Port = viper.GetString("redis.port")
+	config.DbNumber = viper.GetInt("redis.db_number")
+
 	return config
 }

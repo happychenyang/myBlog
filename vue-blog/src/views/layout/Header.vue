@@ -7,25 +7,25 @@
         </a-menu-item>
         <a-menu-item key="one">
           <template #icon>
-            <appstore-outlined/>
+            <appstore-outlined />
           </template>
           <router-link to="/home">首页</router-link>
         </a-menu-item>
         <a-menu-item key="two">
           <template #icon>
-            <tag-outlined/>
+            <tag-outlined />
           </template>
           <router-link to="/essay_list">文章</router-link>
         </a-menu-item>
         <a-menu-item key="sheet">
           <template #icon>
-            <heart-outlined/>
+            <heart-outlined />
           </template>
           ChatGPT
         </a-menu-item>
         <a-menu-item key="flor">
           <template #icon>
-            <smile-outlined/>
+            <smile-outlined />
           </template>
           简介
         </a-menu-item>

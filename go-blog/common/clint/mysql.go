@@ -1,4 +1,4 @@
-package database
+package clint
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ var Db *gorm.DB
 func init() {
 	var configObj config2.MysqlConfig
 	configInfo := configObj.GetMysqlConfig()
-	//----------日志设置
+	//日志设置
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), //is 写入
 		logger.Config{
@@ -31,8 +31,15 @@ func init() {
 			Colorful:                  false,         //禁用颜色
 		},
 	)
-	//----------链接数据库
-	var dsnStr = configInfo.Username + ":" + configInfo.Password + "@tcp(" + configInfo.Hostname + ":" + configInfo.Port + ")/" + configInfo.Database + "?charset=" + configInfo.Charset + "&parseTime=" + configInfo.ParseTime + "&loc=" + configInfo.Loc
+	//链接数据库
+	var dsnStr = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=%s&loc=%s", configInfo.Username,
+		configInfo.Password,
+		configInfo.Hostname,
+		configInfo.Port,
+		configInfo.Database,
+		configInfo.Charset,
+		configInfo.ParseTime,
+		configInfo.Loc)
 	var err error
 	Db, err = gorm.Open(mysql.New(mysql.Config{
 		DSN:                       dsnStr,
@@ -60,4 +67,15 @@ func init() {
 	sqlDB.SetMaxOpenConns(configInfo.MaxOpenConn)
 	//设置链接池可服用的最大时间
 	sqlDB.SetConnMaxLifetime(time.Hour)
+}
+
+func Close() {
+	sqlDB, err := Db.DB()
+	if err != nil {
+		fmt.Printf("mysql connect error %v", err)
+	}
+	closeErr := sqlDB.Close()
+	if closeErr != nil {
+		return
+	}
 }

@@ -75,8 +75,7 @@
 }
 </style>
 <script setup>
-import { defineComponent, ref } from "vue";
-import { StarOutlined, LikeOutlined, MessageOutlined, UserOutlined } from "@ant-design/icons-vue";
+import { ref } from "vue";
 import EssayList from "@/components/EssayList";
 
 const pagination = {
