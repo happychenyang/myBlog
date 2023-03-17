@@ -1,10 +1,27 @@
 package service
 
-import model "go-blog/app/models"
+import (
+	"go-blog/app/bean"
+	model "go-blog/app/models"
+)
 
-//GetBaseInfo  查询基础信息
-func GetArticleList() (result []model.Article, err error) {
+// GetArticleList 查询基础信息
+func GetArticleList(articleWhere *bean.ArticleList) (result []model.Article, total int64, err error) {
 	var base model.Article
-	result, err = base.GetArticleList()
+	result, total, err = base.GetArticleList(articleWhere)
+	return
+}
+
+// GetArticleDetail 查询文章内容
+func GetArticleDetail(articleWhere bean.ArticleDetail) (detail model.Article, err error) {
+	var base model.Article
+	detail, err = base.GetArticleDetail(articleWhere)
+	return
+}
+
+// GetArticleClassify 查询文章分类
+func GetArticleClassify() (list []model.ArticleClassify, err error) {
+	var base model.ArticleClassify
+	list, err = base.GetClassifyByArticle()
 	return
 }

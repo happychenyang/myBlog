@@ -2,14 +2,18 @@ package global
 
 import (
 	"github.com/gin-gonic/gin"
+	"go-blog/app/bean"
 	"net/http"
 )
 
 type ResponseType struct {
-	Code    int
-	Message string
-	Data    interface{}
-	Error   interface{}
+	Code      int
+	Message   string
+	PageIndex int
+	PageSize  int
+	Total     int64
+	Data      interface{}
+	Error     interface{}
 }
 
 type GinContext struct {
@@ -35,4 +39,15 @@ func (GinContext *GinContext) Error(httpCode int, error interface{}) {
 	errorInfo.Message = "error"
 	errorInfo.Error = error
 	GinContext.c.JSON(httpCode, errorInfo)
+}
+
+// JsonPagination json分页
+func (GinContext *GinContext) JsonPagination(page *bean.Page, list interface{}, total int64) {
+	successInfo := ResponseType{}
+	successInfo.Message = "success"
+	successInfo.Total = total
+	successInfo.Data = list
+	successInfo.PageSize = page.PageSize
+	successInfo.PageIndex = page.PageIndex
+	GinContext.c.JSON(http.StatusOK, successInfo)
 }
