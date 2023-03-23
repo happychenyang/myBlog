@@ -2,7 +2,7 @@ package bean
 
 // ArticleDetail 获取详情参数
 type ArticleDetail struct {
-	Id int `form:"article_id" json:"article_id" binding:"gt=0"`
+	Id int `form:"articleId" json:"articleId" binding:"gt=0"`
 }
 
 // ArticleList 文章列表

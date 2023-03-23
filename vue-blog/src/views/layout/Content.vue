@@ -15,16 +15,67 @@
     </div>
     <div class="content-div-title">
       <a-carousel autoplay>
-        <div v-for=" item in imageList ">
-          <img :src="item" alt="" style="width: 100%; height: 300px; margin: auto"/>
+        <div v-for=" item in data.imageList ">
+          <img :src="global.httpConfig.baseUrl  + item.blog_image" alt="" style="width: 100%; height: 300px; margin: auto"/>
         </div>
       </a-carousel>
     </div>
     <div class="content-div-content">
-      <EssayList :pagination=" pagination " :data=" data "></EssayList>
+      <EssayList :pagination=" pagination " :data=" data.list "></EssayList>
     </div>
   </div>
 </template>
+
+<script setup>
+import {ref, watch, reactive, onMounted, getCurrentInstance} from "vue";
+import EssayList from "@/components/EssayList";
+import API from "@/request/api"
+
+const { appContext } = getCurrentInstance()
+const global = appContext.config.globalProperties;
+
+const pagination = {
+  onChange: page => {
+    pagination.pageIndex = page;
+    getList()
+  },
+  pageIndex:1,
+  pageSize: 10,
+  total: 0
+};
+const imageList = [
+  '/image/wood.jpg',
+  '/image/rainbow.jpg',
+  '/image/waterfall.jpg',
+  '/image/sunset.jpg'
+];
+const value = ref();
+const onPanelChange = (value, mode) => {
+  // console.log(value, mode);
+};
+// 声明这是个一个动态
+let data = reactive({
+  list: [],
+  imageList: []
+})
+
+const getList = () => {
+  API.article.articleList(pagination).then(res => {
+    data.list = res.Data
+    pagination.total = res.Total
+  });
+}
+
+getList(1);
+
+onMounted(() => {
+  API.home.rotationList().then(res => {
+    data.imageList = res.Data
+  });
+})
+
+</script>
+
 <style scoped>
 .ant-card {
   margin: auto;
@@ -74,37 +125,3 @@
   margin: 1% auto auto;
 }
 </style>
-<script setup>
-import { ref } from "vue";
-import EssayList from "@/components/EssayList";
-
-const pagination = {
-  onChange: page => {
-    console.log(page);
-  },
-  pageSize: 5
-};
-const imageList = [
-  '/image/wood.jpg',
-  '/image/rainbow.jpg',
-  '/image/waterfall.jpg',
-  '/image/sunset.jpg'
-];
-const value = ref();
-const onPanelChange = (value, mode) => {
-  console.log(value, mode);
-};
-const data = [{
-  id: 1,
-  image: '/image/wood.jpg',
-  title: 'Title 1',
-  content: '这里是内容',
-  look: 123
-}, {
-  id: 2,
-  image: '',
-  title: 'Title 2',
-  content: '这里是内容',
-  look: 123
-}];
-</script>

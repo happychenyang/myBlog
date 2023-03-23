@@ -31,7 +31,7 @@
         </a-menu-item>
       </a-menu>
       <a-switch
-          :checked="theme === 'dark'"
+          :checked="state.theme === 'dark'"
           checked-children="Happy"
           un-checked-children="Luck"
           @change="changeTheme"
